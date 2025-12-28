@@ -1,3 +1,20 @@
-build-essential
-gcc
-g++
+services:
+  # Backend API Service
+  - type: web
+    name: gfr-pm-assistant-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: |
+      cd backend
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: cd backend && gunicorn -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:$PORT --workers 2
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: 3.9.18
+      - key: ENVIRONMENT
+        value: production
+    healthCheckPath: /health

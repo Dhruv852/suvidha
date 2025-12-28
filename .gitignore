@@ -1,21 +1,50 @@
 # Node
 node_modules
 .next
+out
 
 # Python
 .venv
 venv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
 
 # Environment variables
 .env
+.env.local
+.env.*.local
 
 # Logs
 *.log
+
+# Vector Store (regenerated on deployment)
+backend/vector_store/
+vector_store/
 
 # PDFs generated in the data folder (if any)
 # backend/data/*.pdf
 # frontend/public/*.pdf
 
 # Cache and temporary files
-__pycache__/
-.DS_Store 
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/ 
