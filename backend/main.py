@@ -127,9 +127,10 @@ rag = RAGSystem()
 
 @app.on_event("startup")
 async def startup_event():
-    # Load RAG in background to not block startup completely, 
-    # but for local dev it's better to just wait
-    rag.load_documents()
+    # Load RAG in a separate thread so the server starts immediately
+    # This matches the user's need to avoid 502 timeouts on Render
+    import threading
+    threading.Thread(target=rag.load_documents, daemon=True).start()
 
 class Message(BaseModel):
     role: str
@@ -142,6 +143,11 @@ class ChatRequest(BaseModel):
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
+    if not rag.is_ready:
+        return {
+            "response": "⚠️ The Reference System is still initializing (loading AI models). Please wait 30-60 seconds and try again.",
+            "citations": []
+        }
     try:
         api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
         if not api_key:
