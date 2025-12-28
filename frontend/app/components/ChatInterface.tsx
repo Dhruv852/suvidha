@@ -56,7 +56,11 @@ export default function ChatInterface() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('/api/chat', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL
+        ? `${process.env.NEXT_PUBLIC_API_URL}/chat`
+        : '/api/chat'
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -152,11 +156,10 @@ export default function ChatInterface() {
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
-                  message.role === 'user'
+                className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${message.role === 'user'
                     ? 'bg-primary-600 text-white ml-12'
                     : 'bg-white border border-gray-200 mr-12'
-                }`}
+                  }`}
               >
                 <div className={`prose prose-sm max-w-none ${message.role === 'user' ? 'prose-invert' : ''}`}>
                   <ReactMarkdown>{message.content}</ReactMarkdown>
@@ -166,33 +169,29 @@ export default function ChatInterface() {
                     {message.citations.map((citation, idx) => (
                       <div
                         key={idx}
-                        className={`rounded-lg p-3 ${
-                          message.role === 'user'
+                        className={`rounded-lg p-3 ${message.role === 'user'
                             ? 'bg-primary-500/10'
                             : 'bg-gray-50'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className={`text-sm font-medium ${
-                            message.role === 'user'
+                          <span className={`text-sm font-medium ${message.role === 'user'
                               ? 'text-primary-200'
                               : 'text-primary-600'
-                          }`}>
+                            }`}>
                             {citation.source} - Rule {citation.rule_number}
                           </span>
-                          <span className={`text-xs ${
-                            message.role === 'user'
+                          <span className={`text-xs ${message.role === 'user'
                               ? 'text-primary-200'
                               : 'text-gray-500'
-                          }`}>
+                            }`}>
                             Page {citation.page}
                           </span>
                         </div>
-                        <p className={`mt-1 text-sm ${
-                          message.role === 'user'
+                        <p className={`mt-1 text-sm ${message.role === 'user'
                             ? 'text-primary-100'
                             : 'text-gray-700'
-                        }`}>
+                          }`}>
                           {citation.text}
                         </p>
                       </div>

@@ -7,7 +7,6 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from google import genai
 from google.genai import types
-import pypdf
 from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
 import faiss
@@ -90,6 +89,12 @@ class RAGSystem:
                      print(f"Error reading Text file {txt_path}: {e}")
             else:
                  print(f"Warning: Source file not found: {txt_path}")
+            
+            # Free memory after each huge file
+            import gc
+            file_content = None
+            text_clean = None
+            gc.collect()
         
         print(f"Total chunks created: {len(all_chunks)}")
         self.chunks = all_chunks
@@ -131,6 +136,10 @@ async def startup_event():
     # This matches the user's need to avoid 502 timeouts on Render
     import threading
     threading.Thread(target=rag.load_documents, daemon=True).start()
+
+    # Manual Garbage Collection to save RAM on free tier
+    import gc
+    gc.collect()
 
 class Message(BaseModel):
     role: str
