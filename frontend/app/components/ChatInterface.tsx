@@ -157,8 +157,8 @@ export default function ChatInterface() {
             >
               <div
                 className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${message.role === 'user'
-                    ? 'bg-primary-600 text-white ml-12'
-                    : 'bg-white border border-gray-200 mr-12'
+                  ? 'bg-primary-600 text-white ml-12'
+                  : 'bg-white border border-gray-200 mr-12'
                   }`}
               >
                 <div className={`prose prose-sm max-w-none ${message.role === 'user' ? 'prose-invert' : ''}`}>
@@ -170,27 +170,27 @@ export default function ChatInterface() {
                       <div
                         key={idx}
                         className={`rounded-lg p-3 ${message.role === 'user'
-                            ? 'bg-primary-500/10'
-                            : 'bg-gray-50'
+                          ? 'bg-primary-500/10'
+                          : 'bg-gray-50'
                           }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className={`text-sm font-medium ${message.role === 'user'
-                              ? 'text-primary-200'
-                              : 'text-primary-600'
+                            ? 'text-primary-200'
+                            : 'text-primary-600'
                             }`}>
                             {citation.source} - Rule {citation.rule_number}
                           </span>
                           <span className={`text-xs ${message.role === 'user'
-                              ? 'text-primary-200'
-                              : 'text-gray-500'
+                            ? 'text-primary-200'
+                            : 'text-gray-500'
                             }`}>
                             Page {citation.page}
                           </span>
                         </div>
                         <p className={`mt-1 text-sm ${message.role === 'user'
-                            ? 'text-primary-100'
-                            : 'text-gray-700'
+                          ? 'text-primary-100'
+                          : 'text-gray-700'
                           }`}>
                           {citation.text}
                         </p>
